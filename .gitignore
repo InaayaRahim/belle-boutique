@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Environment and secret files
+.env
+.env.*
+
+# Temporary files
+*.log
