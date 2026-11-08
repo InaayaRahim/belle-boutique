@@ -10,7 +10,7 @@ if (!$customerId || $customerId < 1) {
 }
 
 // Retrieve customer details
-$sql = "SELECT * FROM customers WHERE customer_id = ?";
+$sql = "SELECT name, email, phone FROM customers WHERE customer_id = ?";
 
 try {
     $statement = $conn->prepare($sql);
@@ -30,7 +30,9 @@ if (!$customer) {
 }
 
 // Retrieve all orders belonging to this customer
-$orderSql = "SELECT * FROM orders
+$orderSql = "SELECT order_id, bouquet_description, quantity, price,
+                    order_date, deadline, status
+             FROM orders
              WHERE customer_id = ?
              ORDER BY order_date DESC";
 
