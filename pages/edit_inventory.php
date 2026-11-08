@@ -1,6 +1,13 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Get the inventory ID from the URL
 $itemId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -25,6 +32,14 @@ if (!$item) {
 
 // Update the inventory item when the form is submitted
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Verify the CSRF token
+    if (
+        !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid security token. Please return to the form and try again.");
+    }
 
     $itemName = trim($_POST["item_name"] ?? "");
     $colour = trim($_POST["colour"] ?? "");
@@ -53,23 +68,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 low_stock_threshold = ?
             WHERE item_id = ?";
 
-    $statement = $conn->prepare($sql);
+    try {
+        $statement = $conn->prepare($sql);
 
-    $statement->bind_param(
-        "ssisii",
-        $itemName,
-        $colour,
-        $quantity,
-        $unit,
-        $threshold,
-        $itemId
-    );
+        $statement->bind_param(
+            "ssisii",
+            $itemName,
+            $colour,
+            $quantity,
+            $unit,
+            $threshold,
+            $itemId
+        );
 
-    if ($statement->execute()) {
+        $statement->execute();
+
         header("Location: inventory.php?updated=1");
         exit;
-    } else {
-        die("Unable to update inventory item.");
+
+    } catch (mysqli_sql_exception $e) {
+        error_log("Inventory update failed: " . $e->getMessage());
+        die("Unable to update this inventory item right now. Please try again.");
     }
 }
 ?>
@@ -100,6 +119,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 <div class="form-container">
                     <form action="" method="POST">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                        >
 
                         <div class="form-group">
                             <label>Item Name</label>
