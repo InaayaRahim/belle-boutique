@@ -150,6 +150,63 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
                 </div>
 
             </section>
+
+            <section class="overview dashboard-section">
+
+                <div class="section-header">
+                    <h2>Low Stock Overview</h2>
+                    <a href="pages/inventory.php" class="primary-button">View Inventory</a>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Colour</th>
+                                <th>Quantity Remaining</th>
+                                <th>Low Stock Threshold</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php if ($lowStockOverviewResult->num_rows > 0): ?>
+
+                                <?php while ($item = $lowStockOverviewResult->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($item['item_name']); ?></td>
+
+                                        <td><?php echo htmlspecialchars($item['colour'] ?? ''); ?></td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($item['quantity_in_stock']); ?>
+                                            <?php echo htmlspecialchars($item['unit']); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($item['low_stock_threshold']); ?>
+                                            <?php echo htmlspecialchars($item['unit']); ?>
+                                        </td>
+
+                                        <td>
+                                            <span class="stock-badge stock-low">Low Stock</span>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+
+                            <?php else: ?>
+
+                                <tr>
+                                    <td colspan="5">All materials are sufficiently stocked!</td>
+                                </tr>
+
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
         </main>
     </div>
 
