@@ -71,6 +71,23 @@ $result = $conn->query($sql);
                 </a>
             </div>
 
+            <div class="order-filters">
+
+                <input
+                    type="text"
+                    id="orderSearch"
+                    placeholder="Search by customer or bouquet..."
+                >
+
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+
+            </div>
+
             <div class="table-container">
 
                 <table>
@@ -133,5 +150,6 @@ $result = $conn->query($sql);
         </div> <!-- End of main-content -->
     </div>
 
+    <script src="../assets/javascript/orders.js"></script>
 </body>
 </html>

@@ -514,3 +514,31 @@ td button {
 .quick-action:focus {
     text-decoration: none;
 }
+
+/* Order Search and Filters */
+
+.order-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.order-filters input,
+.order-filters select {
+    padding: 12px 14px;
+    border: 1px solid #E8C8CE;
+    border-radius: 8px;
+    background-color: #FDFBFA;
+    color: #54202B;
+    font: inherit;
+}
+
+.order-filters input {
+    flex: 1;
+    min-width: 220px;
+}
+
+.order-filters select {
+    min-width: 170px;
+}
