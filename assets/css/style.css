@@ -57,14 +57,18 @@ body {
     color: #74152C;
 }
 
-/* Main content */
+/* Main Content */
+
 .main-content {
     flex: 1;
-    padding: 40px;
+    min-width: 0;
+    padding: 40px 45px;
 }
 
 .top-header {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #F0D9DC;
 }
 
 .top-header h1 {
@@ -75,13 +79,37 @@ body {
 
 .top-header p {
     color: #98717A;
+    font-size: 15px;
 }
 
-/* Overview section */
-.overview h2 {
-    margin-bottom: 22px;
-    font-size: 23px;
+/* Overview Sections */
+
+.overview {
+    background-color: #FFFFFF;
+    padding: 28px;
+    border: 1px solid #F0D9DC;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(116, 21, 44, 0.04);
 }
+
+.overview h2 {
+    margin-bottom: 0;
+    font-size: 22px;
+    color: #74152C;
+}
+
+/* Section Heading */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+/* Summary Cards */
 
 .summary-cards {
     display: grid;
@@ -158,18 +186,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Section Header and Button Styling */
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 22px;
-}
-
-.section-header h2 {
-    margin-bottom: 0;
-}
+/* Button Styling */
 
 .primary-button {
     display: inline-block;
@@ -182,4 +199,61 @@ body {
 
 .primary-button:hover {
     background-color: #54202B;
+}
+
+/* Table Styling */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #FFFFFF;
+    border: 1px solid #F0D9DC;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(116, 21, 44, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: #F8E2E6;
+}
+
+th {
+    color: #74152C;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 16px;
+    white-space: nowrap;
+}
+
+td {
+    padding: 15px 16px;
+    border-top: 1px solid #F0D9DC;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #FDF8F7;
+}
+
+td a {
+    color: #74152C;
+    font-weight: bold;
+}
+
+td form {
+    display: inline;
+}
+
+td button {
+    border: none;
+    background: none;
+    color: #A33B50;
+    cursor: pointer;
+    font-weight: bold;
 }
