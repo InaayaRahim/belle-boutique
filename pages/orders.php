@@ -100,7 +100,11 @@ $result = $conn->query($sql);
                                     <td>£<?php echo number_format($order['price'], 2); ?></td>
                                     <td><?php echo htmlspecialchars($order['order_date']); ?></td>
                                     <td><?php echo htmlspecialchars($order['deadline'] ?? 'Not set'); ?></td>
-                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                    <td>
+                                        <span class="status-badge status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>">
+                                            <?php echo htmlspecialchars($order['status']); ?>
+                                        </span>
+                                    </td>
                                     <td>
                                         <a href="edit_order.php?id=<?php echo $order['order_id']; ?>">Edit</a>
 

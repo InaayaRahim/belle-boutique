@@ -352,3 +352,29 @@ td button {
     color: #74152C;
     font-weight: bold;
 }
+
+/* Order Status Badges */
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background-color: #FFF0D9;
+    color: #946313;
+}
+
+.status-in-progress {
+    background-color: #E8EDFA;
+    color: #405B9A;
+}
+
+.status-completed {
+    background-color: #E5F1E5;
+    color: #356B3D;
+}
