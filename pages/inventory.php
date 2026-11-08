@@ -108,26 +108,37 @@ $result = $conn->query($sql);
                                         </td>
 
                                         <td>
-                                            <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
-                                                Edit
-                                            </a>
+                                            <div class="table-actions">
 
-                                            <form action="delete_inventory.php" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this inventory item?');">
-
-                                                <input
-                                                    type="hidden"
-                                                    name="item_id"
-                                                    value="<?php echo $item['item_id']; ?>"
+                                                <a
+                                                    href="edit_inventory.php?id=<?php echo $item['item_id']; ?>"
+                                                    class="action-button edit-button"
                                                 >
+                                                    Edit
+                                                </a>
 
-                                                <button type="submit" name="delete_inventory">
-                                                    Delete
-                                                </button>
+                                                <form
+                                                    action="delete_inventory.php"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this item?');"
+                                                >
+                                                    <input
+                                                        type="hidden"
+                                                        name="item_id"
+                                                        value="<?php echo $item['item_id']; ?>"
+                                                    >
 
-                                            </form>
+                                                    <button
+                                                        type="submit"
+                                                        name="delete_inventory"
+                                                        class="action-button delete-button"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </form>
 
-                                        </td>    
+                                            </div>
+                                        </td> 
                                     </tr>
 
                                 <?php endwhile; ?>

@@ -542,3 +542,47 @@ td button {
 .order-filters select {
     min-width: 170px;
 }
+
+/* Table Action Buttons */
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.table-actions form {
+    display: inline;
+    margin: 0;
+}
+
+.action-button {
+    display: inline-block;
+    padding: 7px 13px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.edit-button {
+    background-color: #F8E2E6;
+    color: #74152C;
+}
+
+.edit-button:hover {
+    background-color: #E8C8CE;
+}
+
+.delete-button {
+    background-color: #FBE4E4;
+    color: #9B2525;
+}
+
+.delete-button:hover {
+    background-color: #F3CCCC;
+}

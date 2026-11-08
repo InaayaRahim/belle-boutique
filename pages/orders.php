@@ -123,14 +123,36 @@ $result = $conn->query($sql);
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="edit_order.php?id=<?php echo $order['order_id']; ?>">Edit</a>
+                                        <div class="table-actions">
 
-                                        <form action="delete_order.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
+                                            <a
+                                                href="edit_order.php?id=<?php echo $order['order_id']; ?>"
+                                                class="action-button edit-button"
+                                            >
+                                                Edit
+                                            </a>
 
-                                            <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
-                                            <button type="submit" name="delete_order">Delete</button>
+                                            <form
+                                                action="delete_order.php"
+                                                method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this order?');"
+                                            >
+                                                <input
+                                                    type="hidden"
+                                                    name="order_id"
+                                                    value="<?php echo $order['order_id']; ?>"
+                                                >
 
-                                        </form>
+                                                <button
+                                                    type="submit"
+                                                    name="delete_order"
+                                                    class="action-button delete-button"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </form>
+
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>

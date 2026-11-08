@@ -93,7 +93,10 @@ $result = $conn->query($sql);
                                             <?php echo htmlspecialchars($customer['total_orders']); ?>
                                         </td>
                                         <td>
-                                            <a href="customer_details.php?id=<?php echo $customer['customer_id']; ?>" class="table-action">
+                                            <a
+                                                href="customer_details.php?id=<?php echo $customer['customer_id']; ?>"
+                                                class="action-button edit-button"
+                                            >
                                                 View Orders
                                             </a>
                                         </td>
