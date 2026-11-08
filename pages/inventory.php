@@ -13,7 +13,15 @@ if (empty($_SESSION['csrf_token'])) {
 $sql = "SELECT * FROM inventory
         ORDER BY item_name ASC, colour ASC";
 
-$result = $conn->query($sql);
+$queryError = false;
+
+try {
+    $result = $conn->query($sql);
+} catch (mysqli_sql_exception $e) {
+    error_log("Inventory query failed: " . $e->getMessage());
+    $queryError = true;
+    $result = null;
+}
 
 ?>
 
@@ -91,7 +99,15 @@ $result = $conn->query($sql);
 
                         <tbody>
 
-                            <?php if ($result && $result->num_rows > 0): ?>
+                            <?php if ($queryError): ?>
+
+                                <tr>
+                                    <td colspan="7">
+                                        Unable to load inventory right now. Please try again later.
+                                    </td>
+                                </tr>
+
+                            <?php elseif ($result->num_rows > 0): ?>
 
                                 <?php while ($item = $result->fetch_assoc()): ?>
 
@@ -135,7 +151,7 @@ $result = $conn->query($sql);
                                                         name="csrf_token"
                                                         value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
                                                     >
-                                                    
+
                                                     <input
                                                         type="hidden"
                                                         name="item_id"
