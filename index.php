@@ -16,6 +16,33 @@ $lowStockQuery = "SELECT COUNT(*) AS total FROM inventory
                   WHERE quantity_in_stock <= low_stock_threshold";
 $lowStockResult = $conn->query($lowStockQuery);
 $lowStockItems = $lowStockResult->fetch_assoc()['total'];
+
+// Get the five most recent orders
+$recentOrdersQuery = "
+    SELECT orders.order_id,
+           customers.name AS customer_name,
+           orders.bouquet_description,
+           orders.price,
+           orders.order_date,
+           orders.status
+    FROM orders
+    INNER JOIN customers
+        ON orders.customer_id = customers.customer_id
+    ORDER BY orders.order_date DESC, orders.order_id DESC
+    LIMIT 5
+";
+
+$recentOrdersResult = $conn->query($recentOrdersQuery);
+
+// Get materials that are low in stock
+$lowStockOverviewQuery = "
+    SELECT item_name, colour, quantity_in_stock, unit, low_stock_threshold
+    FROM inventory
+    WHERE quantity_in_stock <= low_stock_threshold
+    ORDER BY quantity_in_stock ASC
+";
+
+$lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +85,70 @@ $lowStockItems = $lowStockResult->fetch_assoc()['total'];
                         <p><?php echo $lowStockItems; ?></p>
                     </div>
                 </div>
+            </section>
+
+            <section class="overview dashboard-section">
+
+                <div class="section-header">
+                    <h2>Recent Orders</h2>
+                    <a href="pages/orders.php" class="primary-button">View All Orders</a>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Bouquet</th>
+                                <th>Price</th>
+                                <th>Order Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php if ($recentOrdersResult->num_rows > 0): ?>
+
+                                <?php while ($order = $recentOrdersResult->fetch_assoc()): ?>
+                                    <tr>
+                                        <td>#<?php echo $order['order_id']; ?></td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($order['customer_name']); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($order['bouquet_description']); ?>
+                                        </td>
+
+                                        <td>
+                                            £<?php echo number_format($order['price'], 2); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($order['order_date']); ?>
+                                        </td>
+
+                                        <td>
+                                            <span class="status-badge status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>">
+                                                <?php echo htmlspecialchars($order['status']); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endwhile; ?>
+
+                            <?php else: ?>
+
+                                <tr>
+                                    <td colspan="6">No orders have been added yet.</td>
+                                </tr>
+
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
             </section>
         </main>
     </div>
