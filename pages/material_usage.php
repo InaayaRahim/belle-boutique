@@ -118,81 +118,84 @@ $inventory = $conn->query($inventorySql);
 </head>
 
 <body>
+    <div class="dashboard">
 
-<div class="main-content">
+        <?php include "../includes/sidebar.php"; ?>
 
-    <header class="top-header">
-        <h1>Material Usage</h1>
-        <p>Record the materials used to create customer orders.</p>
+        <div class="main-content">
 
-        <?php if (isset($_GET['recorded']) && $_GET['recorded'] == 1): ?>
-            <p class="success-message">
-                Material usage recorded and inventory updated successfully!
-            </p>
-        <?php endif; ?>
-    </header>
+            <header class="top-header">
+                <h1>Material Usage</h1>
+                <p>Record the materials used to create customer orders.</p>
 
-    <section class="overview">
+                <?php if (isset($_GET['recorded']) && $_GET['recorded'] == 1): ?>
+                    <p class="success-message">
+                        Material usage recorded and inventory updated successfully!
+                    </p>
+                <?php endif; ?>
+            </header>
 
-        <?php if ($errorMessage !== ""): ?>
-            <p class="error-message">
-                <?php echo htmlspecialchars($errorMessage); ?>
-            </p>
-        <?php endif; ?>
+            <section class="overview">
 
-        <h2>Record Materials Used</h2>
+                <?php if ($errorMessage !== ""): ?>
+                    <p class="error-message">
+                        <?php echo htmlspecialchars($errorMessage); ?>
+                    </p>
+                <?php endif; ?>
 
-        <form action="" method="POST">
+                <h2>Record Materials Used</h2>
 
-            <label for="order_id">Select Order</label>
+                <form action="" method="POST">
 
-            <select name="order_id" id="order_id" required>
-                <option value="">Choose an order</option>
+                    <label for="order_id">Select Order</label>
 
-                <?php while ($order = $orders->fetch_assoc()): ?>
-                    <option value="<?php echo $order['order_id']; ?>">
-                        Order #<?php echo $order['order_id']; ?> -
-                        <?php echo htmlspecialchars($order['bouquet_description']); ?>
-                    </option>
-                <?php endwhile; ?>
+                    <select name="order_id" id="order_id" required>
+                        <option value="">Choose an order</option>
 
-            </select>
+                        <?php while ($order = $orders->fetch_assoc()): ?>
+                            <option value="<?php echo $order['order_id']; ?>">
+                                Order #<?php echo $order['order_id']; ?> -
+                                <?php echo htmlspecialchars($order['bouquet_description']); ?>
+                            </option>
+                        <?php endwhile; ?>
 
-            <label for="item_id">Select Material</label>
+                    </select>
 
-            <select name="item_id" id="item_id" required>
-                <option value="">Choose a material</option>
+                    <label for="item_id">Select Material</label>
 
-                <?php while ($item = $inventory->fetch_assoc()): ?>
-                    <option value="<?php echo $item['item_id']; ?>">
-                        <?php echo htmlspecialchars($item['item_name']); ?>
-                        - <?php echo htmlspecialchars($item['colour'] ?? ''); ?>
-                        (<?php echo htmlspecialchars($item['quantity_in_stock']); ?>
-                        <?php echo htmlspecialchars($item['unit']); ?> available)
-                    </option>
-                <?php endwhile; ?>
+                    <select name="item_id" id="item_id" required>
+                        <option value="">Choose a material</option>
 
-            </select>
+                        <?php while ($item = $inventory->fetch_assoc()): ?>
+                            <option value="<?php echo $item['item_id']; ?>">
+                                <?php echo htmlspecialchars($item['item_name']); ?>
+                                - <?php echo htmlspecialchars($item['colour'] ?? ''); ?>
+                                (<?php echo htmlspecialchars($item['quantity_in_stock']); ?>
+                                <?php echo htmlspecialchars($item['unit']); ?> available)
+                            </option>
+                        <?php endwhile; ?>
 
-            <label for="quantity_used">Quantity Used</label>
+                    </select>
 
-            <input
-                type="number"
-                name="quantity_used"
-                id="quantity_used"
-                min="1"
-                required
-            >
+                    <label for="quantity_used">Quantity Used</label>
 
-            <button type="submit" name="record_usage">
-                Record Material Usage
-            </button>
+                    <input
+                        type="number"
+                        name="quantity_used"
+                        id="quantity_used"
+                        min="1"
+                        required
+                    >
 
-        </form>
+                    <button type="submit" name="record_usage">
+                        Record Material Usage
+                    </button>
 
-    </section>
+                </form>
 
-</div>
+            </section>
 
+        </div>
+    </div>
 </body>
 </html>

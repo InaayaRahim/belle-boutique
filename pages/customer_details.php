@@ -49,98 +49,101 @@ $orders = $orderStatement->get_result();
 </head>
 
 <body>
+    <div class="dashboard">
 
-<div class="main-content">
+        <?php include "../includes/sidebar.php"; ?>
 
-    <header class="top-header">
-        <h1><?php echo htmlspecialchars($customer['name']); ?></h1>
-        <p>Customer details and order history.</p>
-    </header>
+        <div class="main-content">
 
-    <section class="overview">
+            <header class="top-header">
+                <h1><?php echo htmlspecialchars($customer['name']); ?></h1>
+                <p>Customer details and order history.</p>
+            </header>
 
-        <h2>Contact Information</h2>
+            <section class="overview">
 
-        <div class="summary-cards">
+                <h2>Contact Information</h2>
 
-            <div class="summary-card">
-                <h3>Email</h3>
-                <p class="contact-detail">
-                    <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
+                <div class="summary-cards">
+
+                    <div class="summary-card">
+                        <h3>Email</h3>
+                        <p class="contact-detail">
+                            <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
+                        </p>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Phone</h3>
+                        <p class="contact-detail">
+                            <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
+                        </p>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Total Orders</h3>
+                        <p><?php echo $orders->num_rows; ?></p>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="overview">
+
+                <h2>Order History</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Bouquet Description</th>
+                            <th>Quantity</th>
+                            <th>Price (£)</th>
+                            <th>Order Date</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <?php if ($orders->num_rows > 0): ?>
+
+                            <?php while ($order = $orders->fetch_assoc()): ?>
+
+                                <tr>
+                                    <td><?php echo htmlspecialchars($order['order_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['quantity']); ?></td>
+                                    <td><?php echo number_format((float) $order['price'], 2); ?></td>
+                                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['deadline'] ?? 'N/A'); ?></td>
+                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                </tr>
+
+                            <?php endwhile; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="7">This customer has not placed any orders yet.</td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+                <p class="black-link">
+                    <a href="customers.php">← Back to Customers</a>
                 </p>
-            </div>
 
-            <div class="summary-card">
-                <h3>Phone</h3>
-                <p class="contact-detail">
-                    <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
-                </p>
-            </div>
-
-            <div class="summary-card">
-                <h3>Total Orders</h3>
-                <p><?php echo $orders->num_rows; ?></p>
-            </div>
+            </section>
 
         </div>
-
-    </section>
-
-    <section class="overview">
-
-        <h2>Order History</h2>
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Bouquet Description</th>
-                    <th>Quantity</th>
-                    <th>Price (£)</th>
-                    <th>Order Date</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <?php if ($orders->num_rows > 0): ?>
-
-                    <?php while ($order = $orders->fetch_assoc()): ?>
-
-                        <tr>
-                            <td><?php echo htmlspecialchars($order['order_id']); ?></td>
-                            <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
-                            <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                            <td><?php echo number_format((float) $order['price'], 2); ?></td>
-                            <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                            <td><?php echo htmlspecialchars($order['deadline'] ?? 'N/A'); ?></td>
-                            <td><?php echo htmlspecialchars($order['status']); ?></td>
-                        </tr>
-
-                    <?php endwhile; ?>
-
-                <?php else: ?>
-
-                    <tr>
-                        <td colspan="7">This customer has not placed any orders yet.</td>
-                    </tr>
-
-                <?php endif; ?>
-
-            </tbody>
-
-        </table>
-
-        <p class="black-link">
-            <a href="customers.php">← Back to Customers</a>
-        </p>
-
-    </section>
-
-</div>
-
+    </div>
 </body>
 </html>

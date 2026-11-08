@@ -35,81 +35,84 @@ $result = $conn->query($sql);
 </head>
 
 <body>
+    <div class="dashboard">
 
-<div class="main-content">
+        <?php include "../includes/sidebar.php"; ?>
 
-    <header class="top-header">
-        <h1>Customers</h1>
-        <p>View and manage your Belle Boutique customers.</p>
-    </header>
+        <div class="main-content">
 
-    <section class="overview">
+            <header class="top-header">
+                <h1>Customers</h1>
+                <p>View and manage your Belle Boutique customers.</p>
+            </header>
 
-        <h2>All Customers</h2>
+            <section class="overview">
 
-        <table>
+                <h2>All Customers</h2>
 
-            <thead>
-                <tr>
-                    <th>Customer ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Total Orders</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+                <table>
 
-            <tbody>
-
-                <?php if ($result && $result->num_rows > 0): ?>
-
-                    <?php while ($customer = $result->fetch_assoc()): ?>
-
+                    <thead>
                         <tr>
-                            <td>
-                                <?php echo htmlspecialchars($customer['customer_id']); ?>
-                            </td>
-
-                            <td>
-                                <?php echo htmlspecialchars($customer['name']); ?>
-                            </td>
-
-                            <td>
-                                <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
-                            </td>
-
-                            <td>
-                                <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
-                            </td>
-
-                            <td>
-                                <?php echo htmlspecialchars($customer['total_orders']); ?>
-                            </td>
-                            <td>
-                                <a href="customer_details.php?id=<?php echo $customer['customer_id']; ?>">
-                                    View Orders
-                                </a>
-                            </td>
+                            <th>Customer ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Total Orders</th>
+                            <th>Actions</th>
                         </tr>
+                    </thead>
 
-                    <?php endwhile; ?>
+                    <tbody>
 
-                <?php else: ?>
+                        <?php if ($result && $result->num_rows > 0): ?>
 
-                    <tr>
-                        <td colspan="6">No customers found yet.</td>
-                    </tr>
+                            <?php while ($customer = $result->fetch_assoc()): ?>
 
-                <?php endif; ?>
+                                <tr>
+                                    <td>
+                                        <?php echo htmlspecialchars($customer['customer_id']); ?>
+                                    </td>
 
-            </tbody>
+                                    <td>
+                                        <?php echo htmlspecialchars($customer['name']); ?>
+                                    </td>
 
-        </table>
+                                    <td>
+                                        <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
+                                    </td>
 
-    </section>
+                                    <td>
+                                        <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
+                                    </td>
 
-</div>
+                                    <td>
+                                        <?php echo htmlspecialchars($customer['total_orders']); ?>
+                                    </td>
+                                    <td>
+                                        <a href="customer_details.php?id=<?php echo $customer['customer_id']; ?>">
+                                            View Orders
+                                        </a>
+                                    </td>
+                                </tr>
 
+                            <?php endwhile; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="6">No customers found yet.</td>
+                            </tr>
+
+                        <?php endif; ?>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </div>
+    </div>
 </body>
 </html>

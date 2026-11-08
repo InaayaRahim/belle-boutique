@@ -111,55 +111,58 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
+    <div class="dashboard">
 
-    <div class="main-content">
+        <?php include "../includes/sidebar.php"; ?>
 
-        <header class="top-header">
-            <h1>Add New Order</h1>
-            <p>Enter the details of a new bouquet order.</p>
-        </header>
+        <div class="main-content">
 
-        <section class="overview">
+            <header class="top-header">
+                <h1>Add New Order</h1>
+                <p>Enter the details of a new bouquet order.</p>
+            </header>
 
-            <form action="" method="POST">
+            <section class="overview">
 
-                <h2>Customer Details</h2>
+                <form action="" method="POST">
 
-                <label for="customer_name">Customer Name</label>
-                <input type="text" id="customer_name" name="customer_name" required>
+                    <h2>Customer Details</h2>
 
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email">
+                    <label for="customer_name">Customer Name</label>
+                    <input type="text" id="customer_name" name="customer_name" required>
 
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email">
 
-                <h2>Order Details</h2>
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
 
-                <label for="bouquet_description">Bouquet Description</label>
-                <textarea id="bouquet_description" name="bouquet_description" required></textarea>
+                    <h2>Order Details</h2>
 
-                <label for="quantity">Quantity</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+                    <label for="bouquet_description">Bouquet Description</label>
+                    <textarea id="bouquet_description" name="bouquet_description" required></textarea>
 
-                <label for="price">Price (£)</label>
-                <input type="number" id="price" name="price" min="0" step="0.01" required>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
 
-                <label for="order_date">Order Date</label>
-                <input type="date" id="order_date" name="order_date" required>
+                    <label for="price">Price (£)</label>
+                    <input type="number" id="price" name="price" min="0" step="0.01" required>
 
-                <label for="deadline">Completion Deadline</label>
-                <input type="date" id="deadline" name="deadline">
+                    <label for="order_date">Order Date</label>
+                    <input type="date" id="order_date" name="order_date" required>
 
-                <button type="submit" name="add_order">Save Order</button>
+                    <label for="deadline">Completion Deadline</label>
+                    <input type="date" id="deadline" name="deadline">
 
-            </form>
+                    <button type="submit" name="add_order">Save Order</button>
 
-            <a href="orders.php">Back to Orders</a>
+                </form>
 
-        </section>
+                <a href="orders.php">Back to Orders</a>
 
+            </section>
+
+        </div>
     </div>
-
 </body>
 </html>

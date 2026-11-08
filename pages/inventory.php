@@ -25,115 +25,119 @@ $result = $conn->query($sql);
 
 <body>
 
-    <div class="main-content">
+    <div class="dashboard">
 
-        <header class="top-header">
-            <h1>Inventory</h1>
-            <p>Manage your materials and stock levels.</p>
+        <?php include "../includes/sidebar.php"; ?>
+        
+        <div class="main-content">
 
-            <?php if (isset($_GET['added']) && $_GET['added'] == 1): ?>
-                <p class="success-message">
-                    Inventory item added successfully!
-                </p>
-            <?php endif; ?>
-            <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
-                <p class="success-message">
-                    Inventory item updated successfully!
-                </p>
-            <?php endif; ?>
-            <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
-                <p class="success-message">
-                    Inventory item deleted successfully!
-                </p>
-            <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] == 0): ?>
-                <p class="error-message">
-                    Inventory item could not be deleted.
-                </p>
-            <?php endif; ?>
-        </header>
+            <header class="top-header">
+                <h1>Inventory</h1>
+                <p>Manage your materials and stock levels.</p>
 
-        <section class="overview">
+                <?php if (isset($_GET['added']) && $_GET['added'] == 1): ?>
+                    <p class="success-message">
+                        Inventory item added successfully!
+                    </p>
+                <?php endif; ?>
+                <?php if (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+                    <p class="success-message">
+                        Inventory item updated successfully!
+                    </p>
+                <?php endif; ?>
+                <?php if (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+                    <p class="success-message">
+                        Inventory item deleted successfully!
+                    </p>
+                <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] == 0): ?>
+                    <p class="error-message">
+                        Inventory item could not be deleted.
+                    </p>
+                <?php endif; ?>
+            </header>
 
-            <h2>All Inventory Items</h2>
+            <section class="overview">
 
-            <table>
+                <h2>All Inventory Items</h2>
 
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Colour</th>
-                        <th>Quantity</th>
-                        <th>Unit</th>
-                        <th>Low Stock Threshold</th>
-                        <th>Stock Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
+                <table>
 
-                <tbody>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Colour</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Low Stock Threshold</th>
+                            <th>Stock Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                    <?php if ($result && $result->num_rows > 0): ?>
+                    <tbody>
 
-                        <?php while ($item = $result->fetch_assoc()): ?>
+                        <?php if ($result && $result->num_rows > 0): ?>
+
+                            <?php while ($item = $result->fetch_assoc()): ?>
+
+                                <tr>
+                                    <td><?php echo htmlspecialchars($item['item_name']); ?></td>
+
+                                    <td><?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?></td>
+
+                                    <td><?php echo htmlspecialchars($item['quantity_in_stock']); ?></td>
+
+                                    <td><?php echo htmlspecialchars($item['unit']); ?></td>
+
+                                    <td><?php echo htmlspecialchars($item['low_stock_threshold']); ?></td>
+
+                                    <td>
+                                        <?php if ($item['quantity_in_stock'] <= $item['low_stock_threshold']): ?>
+                                            <span>Low Stock</span>
+                                        <?php else: ?>
+                                            <span>In Stock</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
+                                            Edit
+                                        </a>
+
+                                        <form action="delete_inventory.php" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this inventory item?');">
+
+                                            <input
+                                                type="hidden"
+                                                name="item_id"
+                                                value="<?php echo $item['item_id']; ?>"
+                                            >
+
+                                            <button type="submit" name="delete_inventory">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </td>    
+                                </tr>
+
+                            <?php endwhile; ?>
+
+                        <?php else: ?>
 
                             <tr>
-                                <td><?php echo htmlspecialchars($item['item_name']); ?></td>
-
-                                <td><?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?></td>
-
-                                <td><?php echo htmlspecialchars($item['quantity_in_stock']); ?></td>
-
-                                <td><?php echo htmlspecialchars($item['unit']); ?></td>
-
-                                <td><?php echo htmlspecialchars($item['low_stock_threshold']); ?></td>
-
-                                <td>
-                                    <?php if ($item['quantity_in_stock'] <= $item['low_stock_threshold']): ?>
-                                        <span>Low Stock</span>
-                                    <?php else: ?>
-                                        <span>In Stock</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
-                                        Edit
-                                    </a>
-
-                                    <form action="delete_inventory.php" method="POST"
-                                        onsubmit="return confirm('Are you sure you want to delete this inventory item?');">
-
-                                        <input
-                                            type="hidden"
-                                            name="item_id"
-                                            value="<?php echo $item['item_id']; ?>"
-                                        >
-
-                                        <button type="submit" name="delete_inventory">
-                                            Delete
-                                        </button>
-
-                                    </form>
-
-                                </td>    
+                                <td colspan="7">No inventory items found.</td>
                             </tr>
 
-                        <?php endwhile; ?>
+                        <?php endif; ?>
 
-                    <?php else: ?>
+                    </tbody>
 
-                        <tr>
-                            <td colspan="7">No inventory items found.</td>
-                        </tr>
+                </table>
 
-                    <?php endif; ?>
+            </section>
 
-                </tbody>
-
-            </table>
-
-        </section>
-
-    </div>
-
+        </div>
+    </div> <!-- End of dashboard -->
 </body>
 </html>

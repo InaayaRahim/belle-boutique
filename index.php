@@ -30,19 +30,7 @@ $lowStockItems = $lowStockResult->fetch_assoc()['total'];
 <body>
     <div class="dashboard">
 
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="assets/images/belle-boutique-logo.png" alt="Belle Boutique Logo">
-                <h2>Belle Boutique</h2>
-            </div>
-
-            <nav>
-                <a href="index.php" class="active">Dashboard</a>
-                <a href="pages/orders.php">Orders</a>
-                <a href="pages/inventory.php">Inventory</a>
-                <a href="pages/customers.php">Customers</a>
-            </nav>
-        </aside>
+        <?php include "includes/sidebar.php"; ?>
 
         <main class="main-content">
 

@@ -33,7 +33,11 @@ $result = $conn->query($sql);
 
 <body>
 
-    <div class="main-content">
+    <div class="dashboard">
+
+        <?php include "../includes/sidebar.php"; ?>
+
+        <div class="main-content">
 
         <header class="top-header">
             <h1>Orders</h1>
@@ -118,7 +122,7 @@ $result = $conn->query($sql);
                 </a>
             </div>
         </section>
-
+        </div> <!-- End of main-content -->
     </div>
 
 </body>

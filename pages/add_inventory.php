@@ -74,81 +74,84 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 
 <body>
+    <div class="dashboard">
 
-    <div class="main-content">
+        <?php include "../includes/sidebar.php"; ?>
 
-        <header class="top-header">
-            <h1>Add Inventory Item</h1>
-            <p>Add a new material to your stock.</p>
-        </header>
+        <div class="main-content">
 
-        <section class="overview">
+            <header class="top-header">
+                <h1>Add Inventory Item</h1>
+                <p>Add a new material to your stock.</p>
+            </header>
 
-            <?php if ($errorMessage !== ""): ?>
-                <p class="error-message">
-                    <?php echo htmlspecialchars($errorMessage); ?>
-                </p>
-            <?php endif; ?>
+            <section class="overview">
 
-            <form action="" method="POST">
+                <?php if ($errorMessage !== ""): ?>
+                    <p class="error-message">
+                        <?php echo htmlspecialchars($errorMessage); ?>
+                    </p>
+                <?php endif; ?>
 
-                <label for="item_name">Item Name</label>
-                <input
-                    type="text"
-                    id="item_name"
-                    name="item_name"
-                    placeholder="e.g. Pipe Cleaners"
-                    required
-                >
+                <form action="" method="POST">
 
-                <label for="colour">Colour</label>
-                <input
-                    type="text"
-                    id="colour"
-                    name="colour"
-                    placeholder="e.g. Pink"
-                >
+                    <label for="item_name">Item Name</label>
+                    <input
+                        type="text"
+                        id="item_name"
+                        name="item_name"
+                        placeholder="e.g. Pipe Cleaners"
+                        required
+                    >
 
-                <label for="quantity_in_stock">Quantity in Stock</label>
-                <input
-                    type="number"
-                    id="quantity_in_stock"
-                    name="quantity_in_stock"
-                    min="0"
-                    value="0"
-                    required
-                >
+                    <label for="colour">Colour</label>
+                    <input
+                        type="text"
+                        id="colour"
+                        name="colour"
+                        placeholder="e.g. Pink"
+                    >
 
-                <label for="unit">Unit</label>
-                <select id="unit" name="unit" required>
-                    <option value="pieces">Pieces</option>
-                    <option value="metres">Metres</option>
-                    <option value="rolls">Rolls</option>
-                    <option value="packs">Packs</option>
-                    <option value="sheets">Sheets</option>
-                </select>
+                    <label for="quantity_in_stock">Quantity in Stock</label>
+                    <input
+                        type="number"
+                        id="quantity_in_stock"
+                        name="quantity_in_stock"
+                        min="0"
+                        value="0"
+                        required
+                    >
 
-                <label for="low_stock_threshold">Low Stock Threshold</label>
-                <input
-                    type="number"
-                    id="low_stock_threshold"
-                    name="low_stock_threshold"
-                    min="0"
-                    value="5"
-                    required
-                >
+                    <label for="unit">Unit</label>
+                    <select id="unit" name="unit" required>
+                        <option value="pieces">Pieces</option>
+                        <option value="metres">Metres</option>
+                        <option value="rolls">Rolls</option>
+                        <option value="packs">Packs</option>
+                        <option value="sheets">Sheets</option>
+                    </select>
 
-                <button type="submit" name="add_inventory">
-                    Save Inventory Item
-                </button>
+                    <label for="low_stock_threshold">Low Stock Threshold</label>
+                    <input
+                        type="number"
+                        id="low_stock_threshold"
+                        name="low_stock_threshold"
+                        min="0"
+                        value="5"
+                        required
+                    >
 
-            </form>
+                    <button type="submit" name="add_inventory">
+                        Save Inventory Item
+                    </button>
 
-            <a href="inventory.php">Back to Inventory</a>
+                </form>
 
-        </section>
+                <a href="inventory.php">Back to Inventory</a>
 
+            </section>
+
+        </div>
     </div>
-
 </body>
 </html>
