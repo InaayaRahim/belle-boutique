@@ -12,12 +12,18 @@ if (!$customerId || $customerId < 1) {
 // Retrieve customer details
 $sql = "SELECT * FROM customers WHERE customer_id = ?";
 
-$statement = $conn->prepare($sql);
-$statement->bind_param("i", $customerId);
-$statement->execute();
+try {
+    $statement = $conn->prepare($sql);
+    $statement->bind_param("i", $customerId);
+    $statement->execute();
 
-$result = $statement->get_result();
-$customer = $result->fetch_assoc();
+    $result = $statement->get_result();
+    $customer = $result->fetch_assoc();
+
+} catch (mysqli_sql_exception $e) {
+    error_log("Customer details query failed: " . $e->getMessage());
+    die("Unable to load customer details right now. Please try again later.");
+}
 
 if (!$customer) {
     die("Customer not found.");
@@ -28,11 +34,17 @@ $orderSql = "SELECT * FROM orders
              WHERE customer_id = ?
              ORDER BY order_date DESC";
 
-$orderStatement = $conn->prepare($orderSql);
-$orderStatement->bind_param("i", $customerId);
-$orderStatement->execute();
+try {
+    $orderStatement = $conn->prepare($orderSql);
+    $orderStatement->bind_param("i", $customerId);
+    $orderStatement->execute();
 
-$orders = $orderStatement->get_result();
+    $orders = $orderStatement->get_result();
+
+} catch (mysqli_sql_exception $e) {
+    error_log("Customer order history query failed: " . $e->getMessage());
+    die("Unable to load this customer's order history right now. Please try again later.");
+}
 
 ?>
 
@@ -142,7 +154,7 @@ $orders = $orderStatement->get_result();
 
                     </table>
                 </div>
-                
+
                 <a href="customers.php" class="back-link">← Back to Customers</a>
 
             </section>
