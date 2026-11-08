@@ -164,6 +164,10 @@ body {
     .summary-cards {
         grid-template-columns: 1fr;
     }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
 }
 
 .success-message {
@@ -451,4 +455,62 @@ td button {
     margin-bottom: 22px;
     font-size: 22px;
     color: #74152C;
+}
+
+/* Dashboard Quick Actions */
+
+.dashboard-section {
+    margin-top: 25px;
+}
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 22px;
+}
+
+.quick-action {
+    display: block;
+    padding: 22px;
+    background-color: #FDF8F7;
+    border: 1px solid #F0D9DC;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quick-action:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 14px rgba(116, 21, 44, 0.08);
+}
+
+.quick-action span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #F8E2E6;
+    color: #74152C;
+    border-radius: 50%;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.quick-action h3 {
+    color: #74152C;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.quick-action p {
+    color: #98717A;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.quick-action,
+.quick-action:hover,
+.quick-action:focus {
+    text-decoration: none;
 }

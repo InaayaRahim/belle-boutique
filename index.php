@@ -207,6 +207,35 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
                 </div>
 
             </section>
+
+
+            <section class="overview dashboard-section">
+
+                <h2>Quick Actions</h2>
+
+                <div class="quick-actions">
+
+                    <a href="pages/add_order.php" class="quick-action">
+                        <span>+</span>
+                        <h3>Add New Order</h3>
+                        <p>Record a new customer order.</p>
+                    </a>
+
+                    <a href="pages/add_inventory.php" class="quick-action">
+                        <span>+</span>
+                        <h3>Add Inventory</h3>
+                        <p>Add new materials or update your stock list.</p>
+                    </a>
+
+                    <a href="pages/material_usage.php" class="quick-action">
+                        <span>+</span>
+                        <h3>Record Material Usage</h3>
+                        <p>Record materials used and update inventory.</p>
+                    </a>
+
+                </div>
+
+            </section>
         </main>
     </div>
 
