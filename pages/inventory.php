@@ -1,6 +1,13 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Retrieve all inventory items
 $sql = "SELECT * FROM inventory
@@ -122,6 +129,13 @@ $result = $conn->query($sql);
                                                     method="POST"
                                                     onsubmit="return confirm('Are you sure you want to delete this item?');"
                                                 >
+
+                                                    <input
+                                                        type="hidden"
+                                                        name="csrf_token"
+                                                        value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                                                    >
+                                                    
                                                     <input
                                                         type="hidden"
                                                         name="item_id"
