@@ -1,10 +1,25 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Verify the CSRF token
+    if (
+        !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid security token. Please return to the form and try again.");
+    }
 
     // Get and clean the submitted form values
     $customerName = trim($_POST["customer_name"] ?? "");
@@ -13,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $description = trim($_POST["bouquet_description"] ?? "");
     $quantity = filter_var($_POST["quantity"] ?? null, FILTER_VALIDATE_INT);
-    $price = $_POST["price"] ?? "";
+    $price = filter_var($_POST["price"] ?? null, FILTER_VALIDATE_FLOAT);
     $orderDate = $_POST["order_date"] ?? "";
     $deadline = $_POST["deadline"] ?? "";
 
@@ -23,9 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $description === "" ||
         $quantity === false ||
         $quantity < 1 ||
-        !is_numeric($price) ||
+        $price === false ||
         $price < 0 ||
-        $orderDate === ""
+        $orderDate === "" ||
+        ($deadline !== "" && $deadline < $orderDate)
     ) {
         $errorMessage = "Please enter valid information in all required fields.";
 
@@ -125,6 +141,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <section class="overview">
                 <div class="form-container">
                     <form action="" method="POST">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                        >
 
                         <h2>Customer Details</h2>
 
