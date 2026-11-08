@@ -1,6 +1,13 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 // Get the order ID from the URL
 $orderId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
@@ -13,13 +20,21 @@ if (!$orderId) {
 // Handle form submission for updating the order
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    // Verify the CSRF token
+    if (
+        !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid security token. Please return to the form and try again.");
+    }
+
     $customerName = trim($_POST["customer_name"] ?? "");
     $email = trim($_POST["email"] ?? "");
     $phone = trim($_POST["phone"] ?? "");
 
     $description = trim($_POST["bouquet_description"] ?? "");
     $quantity = filter_var($_POST["quantity"] ?? null, FILTER_VALIDATE_INT);
-    $price = $_POST["price"] ?? "";
+    $price = filter_var($_POST["price"] ?? null, FILTER_VALIDATE_FLOAT);
     $orderDate = $_POST["order_date"] ?? "";
     $deadline = $_POST["deadline"] ?? "";
     $status = $_POST["status"] ?? "";
@@ -34,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         !is_numeric($price) ||
         $price < 0 ||
         $orderDate === "" ||
+        ($deadline !== "" && $deadline < $orderDate) ||
         !in_array($status, $allowedStatuses, true)
     ) {
         die("Please enter valid order information.");
@@ -96,7 +112,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
 
         } catch (Throwable $error) {
+
             $conn->rollback();
+        
+            error_log("Order update failed: " . $error->getMessage());
+        
             die("Unable to update the order. Please try again.");
         }
     }
@@ -120,12 +140,18 @@ $sql = "SELECT
         ON orders.customer_id = customers.customer_id
         WHERE orders.order_id = ?";
 
-$statement = $conn->prepare($sql);
-$statement->bind_param("i", $orderId);
-$statement->execute();
+try {
+    $statement = $conn->prepare($sql);
+    $statement->bind_param("i", $orderId);
+    $statement->execute();
 
-$result = $statement->get_result();
-$order = $result->fetch_assoc();
+    $result = $statement->get_result();
+    $order = $result->fetch_assoc();
+
+} catch (mysqli_sql_exception $e) {
+    error_log("Order retrieval failed: " . $e->getMessage());
+    die("Unable to load this order right now. Please try again later.");
+}
 
 // Check whether the order exists
 if (!$order) {
@@ -164,6 +190,12 @@ if (!$order) {
                 <div class="form-container">
 
                     <form action="" method="POST">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                        >
 
                         <h2>Customer Details</h2>
 
