@@ -101,11 +101,12 @@ $result = $conn->query($sql);
 
                                         <td>
                                             <?php if ($item['quantity_in_stock'] <= $item['low_stock_threshold']): ?>
-                                                <span>Low Stock</span>
+                                                <span class="stock-badge stock-low">Low Stock</span>
                                             <?php else: ?>
-                                                <span>In Stock</span>
+                                                <span class="stock-badge stock-in">In Stock</span>
                                             <?php endif; ?>
                                         </td>
+
                                         <td>
                                             <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
                                                 Edit

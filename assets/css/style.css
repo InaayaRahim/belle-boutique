@@ -378,3 +378,24 @@ td button {
     background-color: #E5F1E5;
     color: #356B3D;
 }
+
+/* Inventory Stock Status Badges */
+
+.stock-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.stock-in {
+    background-color: #E5F1E5;
+    color: #356B3D;
+}
+
+.stock-low {
+    background-color: #FBE4E4;
+    color: #9B2525;
+}
