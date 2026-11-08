@@ -6,9 +6,51 @@ Belle Boutique provides an admin dashboard for managing customer orders, custome
 
 ## Screenshots
 
-### Dashboard
+### Desktop Views
 
-![Belle Boutique Dashboard](screenshots/dashboard.png)
+**Dashboard**
+
+![Dashboard](screenshots/dashboard.png)
+
+**Order Management**
+
+![Orders](screenshots/orders.png)
+
+**Customer Management**
+
+![Customers](screenshots/customers.png)
+
+**Inventory Management**
+
+![Inventory](screenshots/inventory.png)
+
+### Management Features
+
+**Add New Order**
+
+![Add Order](screenshots/add-order.png)
+
+**Edit Order**
+
+![Edit Order](screenshots/edit-order.png)
+
+**Add Inventory**
+
+![Add Inventory](screenshots/add-inventory.png)
+
+**Customer Details**
+
+![Customer Details](screenshots/customer-details.png)
+
+**Material Usage Tracking**
+
+![Material Usage](screenshots/material-usage.png)
+
+### Responsive Design
+
+**Mobile Dashboard**
+
+![Mobile Dashboard](screenshots/dashboard-mobile.png)
 
 ## Features
 
