@@ -1,10 +1,25 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Verify the CSRF token
+    if (
+        !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid security token. Please return to the form and try again.");
+    }
 
     // Collect submitted information
     $orderId = filter_var($_POST["order_id"] ?? null, FILTER_VALIDATE_INT);
@@ -88,20 +103,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-// Retrieve all orders
-$orderSql = "SELECT order_id, bouquet_description
-             FROM orders
-             ORDER BY order_date DESC";
+// Retrieve all orders and inventory items
+$queryError = false;
 
-$orders = $conn->query($orderSql);
+try {
+    $orderSql = "SELECT order_id, bouquet_description
+                 FROM orders
+                 ORDER BY order_date DESC";
 
-// Retrieve all inventory items
-$inventorySql = "SELECT item_id, item_name, colour,
-                        quantity_in_stock, unit
-                 FROM inventory
-                 ORDER BY item_name ASC, colour ASC";
+    $orders = $conn->query($orderSql);
 
-$inventory = $conn->query($inventorySql);
+    $inventorySql = "SELECT item_id, item_name, colour,
+                            quantity_in_stock, unit
+                     FROM inventory
+                     ORDER BY item_name ASC, colour ASC";
+
+    $inventory = $conn->query($inventorySql);
+
+} catch (mysqli_sql_exception $e) {
+    error_log("Material usage dropdown query failed: " . $e->getMessage());
+
+    $queryError = true;
+    $orders = null;
+    $inventory = null;
+}
 
 ?>
 
@@ -143,11 +168,25 @@ $inventory = $conn->query($inventorySql);
                     </p>
                 <?php endif; ?>
 
+                <?php if ($queryError): ?>
+                    <p class="error-message">
+                        Unable to load orders and inventory right now. Please try again later.
+                    </p>
+                <?php endif; ?>
+
+                <?php if (!$queryError): ?>
+
                 <div class="form-container">
 
                     <h2>Record Materials Used</h2>
 
                         <form action="" method="POST">
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                        >
 
                             <div class="form-group">
                                 <label for="order_id">Select Order</label>
@@ -202,6 +241,8 @@ $inventory = $conn->query($inventorySql);
                         </form>
 
                 </div>
+
+                <?php endif; ?>
 
             </section>
 
