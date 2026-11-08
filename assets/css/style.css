@@ -113,29 +113,30 @@ body {
 
 .summary-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
 }
 
 .summary-card {
-    background-color: #FFFFFF;
-    padding: 25px;
-    border-radius: 15px;
+    min-width: 0;
+    background-color: #FDF8F7;
+    padding: 22px;
+    border-radius: 12px;
     border: 1px solid #F0D9DC;
-    box-shadow: 0 4px 12px rgba(116, 21, 44, 0.05);
 }
 
 .summary-card h3 {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: normal;
     color: #98717A;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .summary-card p {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: bold;
     color: #74152C;
+    overflow-wrap: anywhere;
 }
 
 /* Responsive layout */
@@ -158,6 +159,10 @@ body {
 
     .form-container {
         padding: 25px 20px;
+    }
+
+    .summary-cards {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -398,4 +403,52 @@ td button {
 .stock-low {
     background-color: #FBE4E4;
     color: #9B2525;
+}
+
+/* Customer Table Styling */
+
+.customer-name {
+    color: #74152C;
+    font-weight: bold;
+}
+
+.table-action {
+    color: #74152C;
+    font-weight: bold;
+    margin-right: 12px;
+    white-space: nowrap;
+}
+
+.table-action:hover {
+    color: #A33B50;
+    text-decoration: underline;
+}
+
+.customer-name {
+    color: #74152C;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.table-action {
+    display: inline-block;
+    color: #74152C;
+    font-weight: bold;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.table-action:hover {
+    color: #A33B50;
+    text-decoration: underline;
+}
+
+.main-content > .overview {
+    margin-bottom: 25px;
+}
+
+.overview > h2 {
+    margin-bottom: 22px;
+    font-size: 22px;
+    color: #74152C;
 }

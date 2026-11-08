@@ -121,7 +121,11 @@ $orders = $orderStatement->get_result();
                                         <td><?php echo number_format((float) $order['price'], 2); ?></td>
                                         <td><?php echo htmlspecialchars($order['order_date']); ?></td>
                                         <td><?php echo htmlspecialchars($order['deadline'] ?? 'N/A'); ?></td>
-                                        <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                        <td>
+                                            <span class="status-badge status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>">
+                                                <?php echo htmlspecialchars($order['status']); ?>
+                                            </span>
+                                        </td>
                                     </tr>
 
                                 <?php endwhile; ?>
@@ -138,9 +142,8 @@ $orders = $orderStatement->get_result();
 
                     </table>
                 </div>
-                <p class="black-link">
-                    <a href="customers.php">← Back to Customers</a>
-                </p>
+                
+                <a href="customers.php" class="back-link">← Back to Customers</a>
 
             </section>
 
