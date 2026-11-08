@@ -94,15 +94,15 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
                 <div class="summary-cards">
                     <div class="summary-card">
                         <h3>Total Orders</h3>
-                        <p><?php echo $totalOrders; ?></p>
+                        <p><?php echo (int)$totalOrders; ?></p>
                     </div>
                     <div class="summary-card">
                         <h3>Pending Orders</h3>
-                        <p><?php echo $pendingOrders; ?></p>
+                        <p><?php echo (int)$pendingOrders; ?></p>
                     </div>
                     <div class="summary-card">
                         <h3>Low Stock Items</h3>
-                        <p><?php echo $lowStockItems; ?></p>
+                        <p><?php echo (int)$lowStockItems; ?></p>
                     </div>
                 </div>
             </section>
@@ -314,6 +314,5 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
 
 
     <script src="assets/javascript/dashboard.js"></script>
-</body>
 </body>
 </html>
