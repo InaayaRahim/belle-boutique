@@ -43,6 +43,10 @@ $result = $conn->query($sql);
                 <p class="success-message">
                     Order added successfully!
                 </p>
+            <?php elseif (isset($_GET['updated']) && $_GET['updated'] == 1): ?>
+                <p class="success-message">
+                    Order updated successfully!
+                </p>
             <?php endif; ?>
         </header>
 
@@ -61,6 +65,7 @@ $result = $conn->query($sql);
                             <th>Order Date</th>
                             <th>Deadline</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
@@ -77,13 +82,16 @@ $result = $conn->query($sql);
                                     <td><?php echo htmlspecialchars($order['order_date']); ?></td>
                                     <td><?php echo htmlspecialchars($order['deadline'] ?? 'Not set'); ?></td>
                                     <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                    <td>
+                                        <a href="edit_order.php?id=<?php echo $order['order_id']; ?>">Edit</a>
+                                    </td>
                                 </tr>
                             <?php endwhile; ?>
 
                         <?php else: ?>
 
                             <tr>
-                                <td colspan="8">No orders found yet.</td>
+                                <td colspan="9">No orders found yet.</td>
                             </tr>
 
                         <?php endif; ?>
