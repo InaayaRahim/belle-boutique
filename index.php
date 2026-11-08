@@ -3,20 +3,22 @@ require_once "includes/db_connect.php";
 
 // Count all orders
 $totalOrdersQuery = "SELECT COUNT(*) AS total FROM orders";
-$totalOrdersResult = $conn->query($totalOrdersQuery);
-
-if (!$totalOrdersResult) {
-    die("Error retrieving total orders: " . $conn->error);
+try {
+    $totalOrdersResult = $conn->query($totalOrdersQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Total orders query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 
 $totalOrders = $totalOrdersResult->fetch_assoc()['total'];
 
 // Count pending orders
 $pendingOrdersQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Pending'";
-$pendingOrdersResult = $conn->query($pendingOrdersQuery);
-
-if (!$pendingOrdersResult) {
-    die("Error retrieving pending orders: " . $conn->error);
+try {
+    $pendingOrdersResult = $conn->query($pendingOrdersQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Pending orders query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 
 $pendingOrders = $pendingOrdersResult->fetch_assoc()['total'];
@@ -28,10 +30,11 @@ $orderStatusQuery = "
     GROUP BY status
 ";
 
-$orderStatusResult = $conn->query($orderStatusQuery);
-
-if (!$orderStatusResult) {
-    die("Error retrieving order status counts: " . $conn->error);
+try {
+    $orderStatusResult = $conn->query($orderStatusQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Order status query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 
 $orderStatusCounts = [
@@ -47,10 +50,11 @@ while ($row = $orderStatusResult->fetch_assoc()) {
 // Count low stock items
 $lowStockQuery = "SELECT COUNT(*) AS total FROM inventory
                   WHERE quantity_in_stock <= low_stock_threshold";
-$lowStockResult = $conn->query($lowStockQuery);
-
-if (!$lowStockResult) {
-    die("Error retrieving low stock count: " . $conn->error);
+try {
+    $lowStockResult = $conn->query($lowStockQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Low stock count query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 
 $lowStockItems = $lowStockResult->fetch_assoc()['total'];
@@ -70,10 +74,11 @@ $recentOrdersQuery = "
     LIMIT 5
 ";
 
-$recentOrdersResult = $conn->query($recentOrdersQuery);
-
-if (!$recentOrdersResult) {
-    die("Error retrieving recent orders: " . $conn->error);
+try {
+    $recentOrdersResult = $conn->query($recentOrdersQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Recent orders query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 
 // Get materials that are low in stock
@@ -84,10 +89,11 @@ $lowStockOverviewQuery = "
     ORDER BY quantity_in_stock ASC
 ";
 
-$lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
-
-if (!$lowStockOverviewResult) {
-    die("Error retrieving low stock overview: " . $conn->error);
+try {
+    $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
+} catch (mysqli_sql_exception $e) {
+    error_log("Low stock overview query failed: " . $e->getMessage());
+    die("Unable to load dashboard data right now. Please try again later.");
 }
 ?>
 
