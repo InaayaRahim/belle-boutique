@@ -4,6 +4,7 @@
 # Environment and secret files
 .env
 .env.*
+!.env.example
 
 # Temporary files
 *.log
