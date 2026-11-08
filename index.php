@@ -11,6 +11,25 @@ $pendingOrdersQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Pend
 $pendingOrdersResult = $conn->query($pendingOrdersQuery);
 $pendingOrders = $pendingOrdersResult->fetch_assoc()['total'];
 
+// Get order counts for the status chart
+$orderStatusQuery = "
+    SELECT status, COUNT(*) AS total
+    FROM orders
+    GROUP BY status
+";
+
+$orderStatusResult = $conn->query($orderStatusQuery);
+
+$orderStatusCounts = [
+    'Pending' => 0,
+    'In Progress' => 0,
+    'Completed' => 0
+];
+
+while ($row = $orderStatusResult->fetch_assoc()) {
+    $orderStatusCounts[$row['status']] = $row['total'];
+}
+
 // Count low stock items
 $lowStockQuery = "SELECT COUNT(*) AS total FROM inventory
                   WHERE quantity_in_stock <= low_stock_threshold";
@@ -54,6 +73,7 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
+
 <body>
     <div class="dashboard">
 
@@ -84,6 +104,56 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
                         <h3>Low Stock Items</h3>
                         <p><?php echo $lowStockItems; ?></p>
                     </div>
+                </div>
+            </section>
+
+            <section class="overview dashboard-section">
+                <h2>Order Status Overview</h2>
+
+                <div class="order-status-chart">
+
+                    <div class="chart-item">
+                        <div class="chart-label">
+                            <span>Pending</span>
+                            <strong>
+                                <?php echo $orderStatusCounts['Pending']; ?> orders
+                                (<span class="chart-percentage">0%</span>)
+                            </strong>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="chart-fill pending-fill"
+                                data-status="Pending"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-item">
+                        <div class="chart-label">
+                            <span>In Progress</span>
+                            <strong>
+                                <?php echo $orderStatusCounts['In Progress']; ?> orders
+                                (<span class="chart-percentage">0%</span>)
+                            </strong>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="chart-fill progress-fill"
+                                data-status="In Progress"></div>
+                        </div>
+                    </div>
+
+                    <div class="chart-item">
+                        <div class="chart-label">
+                            <span>Completed</span>
+                            <strong>
+                                <?php echo $orderStatusCounts['Completed']; ?> orders
+                                (<span class="chart-percentage">0%</span>)
+                            </strong>
+                        </div>
+                        <div class="chart-bar">
+                            <div class="chart-fill completed-fill"
+                                data-status="Completed"></div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
@@ -239,5 +309,40 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
         </main>
     </div>
 
+
+    <script>
+        const orderCounts = {
+            pending: <?php echo (int)$orderStatusCounts['Pending']; ?>,
+            progress: <?php echo (int)$orderStatusCounts['In Progress']; ?>,
+            completed: <?php echo (int)$orderStatusCounts['Completed']; ?>
+        };
+
+        const total = Object.values(orderCounts)
+            .reduce((sum, count) => sum + count, 0);
+
+        document.querySelectorAll('.chart-fill').forEach(bar => {
+            const status = bar.dataset.status;
+
+            let count = 0;
+
+            if (status === 'Pending') count = orderCounts.pending;
+            if (status === 'In Progress') count = orderCounts.progress;
+            if (status === 'Completed') count = orderCounts.completed;
+
+            const percentage = total > 0
+                ? (count / total) * 100
+                : 0;
+
+            bar.style.width = percentage + '%';
+
+            const percentageLabel = bar
+                .closest('.chart-item')
+                .querySelector('.chart-percentage');
+
+            percentageLabel.textContent =
+                percentage.toFixed(1) + '%';
+        });
+    </script>
+</body>
 </body>
 </html>
