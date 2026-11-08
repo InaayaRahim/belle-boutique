@@ -109,7 +109,7 @@ try {
                                         </td>
                                         <td>
                                             <a
-                                                href="customer_details.php?id=<?php echo $customer['customer_id']; ?>"
+                                                href="customer_details.php?id=<?php echo (int) $customer['customer_id']; ?>"
                                                 class="action-button edit-button"
                                             >
                                                 View Orders
