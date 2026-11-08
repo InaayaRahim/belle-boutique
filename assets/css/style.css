@@ -168,6 +168,23 @@ body {
     .quick-actions {
         grid-template-columns: 1fr;
     }
+
+    .overview {
+        padding: 18px;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    
+    .quick-actions {
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+    }
+    
+    .quick-action {
+        width: 100%;
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
 }
 
 .success-message {
@@ -177,6 +194,20 @@ body {
     border-radius: 8px;
     margin-top: 20px;
     display: inline-block;
+}
+
+.quick-action {
+    padding: 16px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.quick-action h3,
+.quick-action p {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 /* Customer Details */
@@ -472,11 +503,14 @@ td button {
 
 .quick-action {
     display: block;
+    min-width: 0;
+    box-sizing: border-box;
     padding: 22px;
     background-color: #FDF8F7;
     border: 1px solid #F0D9DC;
     border-radius: 12px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow-wrap: anywhere;
 }
 
 .quick-action:hover {
