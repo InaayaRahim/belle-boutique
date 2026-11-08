@@ -143,55 +143,65 @@ $inventory = $conn->query($inventorySql);
                     </p>
                 <?php endif; ?>
 
-                <h2>Record Materials Used</h2>
+                <div class="form-container">
 
-                <form action="" method="POST">
+                    <h2>Record Materials Used</h2>
 
-                    <label for="order_id">Select Order</label>
+                        <form action="" method="POST">
 
-                    <select name="order_id" id="order_id" required>
-                        <option value="">Choose an order</option>
+                            <div class="form-group">
+                                <label for="order_id">Select Order</label>
 
-                        <?php while ($order = $orders->fetch_assoc()): ?>
-                            <option value="<?php echo $order['order_id']; ?>">
-                                Order #<?php echo $order['order_id']; ?> -
-                                <?php echo htmlspecialchars($order['bouquet_description']); ?>
-                            </option>
-                        <?php endwhile; ?>
+                                <select name="order_id" id="order_id" required>
+                                    <option value="">Choose an order</option>
 
-                    </select>
+                                    <?php while ($order = $orders->fetch_assoc()): ?>
+                                        <option value="<?php echo $order['order_id']; ?>">
+                                            Order #<?php echo $order['order_id']; ?> -
+                                            <?php echo htmlspecialchars($order['bouquet_description']); ?>
+                                        </option>
+                                    <?php endwhile; ?>
 
-                    <label for="item_id">Select Material</label>
+                                </select>
+                            </div>
 
-                    <select name="item_id" id="item_id" required>
-                        <option value="">Choose a material</option>
+                            <div class="form-group">
+                                <label for="item_id">Select Material</label>
 
-                        <?php while ($item = $inventory->fetch_assoc()): ?>
-                            <option value="<?php echo $item['item_id']; ?>">
-                                <?php echo htmlspecialchars($item['item_name']); ?>
-                                - <?php echo htmlspecialchars($item['colour'] ?? ''); ?>
-                                (<?php echo htmlspecialchars($item['quantity_in_stock']); ?>
-                                <?php echo htmlspecialchars($item['unit']); ?> available)
-                            </option>
-                        <?php endwhile; ?>
+                                <select name="item_id" id="item_id" required>
+                                    <option value="">Choose a material</option>
 
-                    </select>
+                                    <?php while ($item = $inventory->fetch_assoc()): ?>
+                                        <option value="<?php echo $item['item_id']; ?>">
+                                            <?php echo htmlspecialchars($item['item_name']); ?>
+                                            - <?php echo htmlspecialchars($item['colour'] ?? ''); ?>
+                                            (<?php echo htmlspecialchars($item['quantity_in_stock']); ?>
+                                            <?php echo htmlspecialchars($item['unit']); ?> available)
+                                        </option>
+                                    <?php endwhile; ?>
 
-                    <label for="quantity_used">Quantity Used</label>
+                                </select>
+                            </div>
 
-                    <input
-                        type="number"
-                        name="quantity_used"
-                        id="quantity_used"
-                        min="1"
-                        required
-                    >
+                            <label for="quantity_used">Quantity Used</label>
 
-                    <button type="submit" name="record_usage">
-                        Record Material Usage
-                    </button>
+                            <div class="form-group">
+                                <input
+                                    type="number"
+                                    name="quantity_used"
+                                    id="quantity_used"
+                                    min="1"
+                                    required
+                                >
+                            </div>
 
-                </form>
+                            <button type="submit" name="record_usage">
+                                Record Material Usage
+                            </button>
+
+                        </form>
+
+                </div>
 
             </section>
 
