@@ -47,6 +47,14 @@ $result = $conn->query($sql);
                 <p class="success-message">
                     Order updated successfully!
                 </p>
+            <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] == 1): ?>
+                <p class="success-message">
+                    Order deleted successfully!
+                </p>
+            <?php elseif (isset($_GET['deleted']) && $_GET['deleted'] == 0): ?>
+                <p class="success-message">
+                    No order was deleted.
+                </p>
             <?php endif; ?>
         </header>
 
@@ -84,6 +92,13 @@ $result = $conn->query($sql);
                                     <td><?php echo htmlspecialchars($order['status']); ?></td>
                                     <td>
                                         <a href="edit_order.php?id=<?php echo $order['order_id']; ?>">Edit</a>
+
+                                        <form action="delete_order.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
+
+                                            <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
+                                            <button type="submit" name="delete_order">Delete</button>
+
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endwhile; ?>
