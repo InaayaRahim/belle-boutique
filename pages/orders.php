@@ -38,52 +38,62 @@ $result = $conn->query($sql);
         <header class="top-header">
             <h1>Orders</h1>
             <p>Manage bouquet orders.</p>
+
+            <?php if (isset($_GET['added']) && $_GET['added'] == 1): ?>
+                <p class="success-message">
+                    Order added successfully!
+                </p>
+            <?php endif; ?>
         </header>
 
         <section class="overview">
+            <div class="orders-header">
+                <h2>All Orders</h2>
 
-            <h2>All Orders</h2>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Bouquet Description</th>
-                        <th>Quantity</th>
-                        <th>Price (£)</th>
-                        <th>Order Date</th>
-                        <th>Deadline</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php if ($result && $result->num_rows > 0): ?>
-
-                        <?php while ($order = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($order['order_id']); ?></td>
-                                <td><?php echo htmlspecialchars($order['name']); ?></td>
-                                <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
-                                <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                                <td>£<?php echo number_format($order['price'], 2); ?></td>
-                                <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                                <td><?php echo htmlspecialchars($order['deadline'] ?? 'Not set'); ?></td>
-                                <td><?php echo htmlspecialchars($order['status']); ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-
-                    <?php else: ?>
-
+                <table>
+                    <thead>
                         <tr>
-                            <td colspan="8">No orders found yet.</td>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Bouquet Description</th>
+                            <th>Quantity</th>
+                            <th>Price (£)</th>
+                            <th>Order Date</th>
+                            <th>Deadline</th>
+                            <th>Status</th>
                         </tr>
+                    </thead>
 
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    <tbody>
+                        <?php if ($result && $result->num_rows > 0): ?>
 
+                            <?php while ($order = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($order['order_id']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['quantity']); ?></td>
+                                    <td>£<?php echo number_format($order['price'], 2); ?></td>
+                                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
+                                    <td><?php echo htmlspecialchars($order['deadline'] ?? 'Not set'); ?></td>
+                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="8">No orders found yet.</td>
+                            </tr>
+
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+
+                <a href="add_order.php" class="add-order-button">
+                    + Add New Order
+                </a>
+            </div>
         </section>
 
     </div>
