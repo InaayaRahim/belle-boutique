@@ -16,7 +16,15 @@ $sql = "SELECT
         ON orders.customer_id = customers.customer_id
         ORDER BY orders.order_date DESC";
 
-$result = $conn->query($sql);
+$queryError = false;
+
+try {
+    $result = $conn->query($sql);
+} catch (mysqli_sql_exception $e) {
+    error_log("Orders query failed: " . $e->getMessage());
+    $queryError = true;
+    $result = null;
+}
 
 ?>
 
@@ -106,7 +114,15 @@ $result = $conn->query($sql);
                     </thead>
 
                     <tbody>
-                        <?php if ($result && $result->num_rows > 0): ?>
+                        <?php if ($queryError): ?>
+
+                            <tr>
+                                <td colspan="9">
+                                    Unable to load orders right now. Please try again later.
+                                </td>
+                            </tr>
+
+                        <?php elseif ($result->num_rows > 0): ?>
 
                             <?php while ($order = $result->fetch_assoc()): ?>
                                 <tr>
