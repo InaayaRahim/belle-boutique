@@ -58,7 +58,13 @@ $result = $conn->query($sql);
 
             <section class="overview">
 
-                <h2>All Inventory Items</h2>
+                <div class="section-header">
+                    <h2>All Inventory Items</h2>
+
+                    <a href="add_inventory.php" class="primary-button">
+                        + Add Inventory Item
+                    </a>
+                </div>
 
                 <table>
 

@@ -157,3 +157,29 @@ body {
     border-radius: 8px;
     margin-bottom: 20px;
 }
+
+/* Section Header and Button Styling */
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.section-header h2 {
+    margin-bottom: 0;
+}
+
+.primary-button {
+    display: inline-block;
+    background-color: #74152C;
+    color: #FFFFFF;
+    padding: 11px 18px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+    background-color: #54202B;
+}
