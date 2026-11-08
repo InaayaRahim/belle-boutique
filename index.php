@@ -110,7 +110,10 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
             <section class="overview dashboard-section">
                 <h2>Order Status Overview</h2>
 
-                <div class="order-status-chart">
+                <div class="order-status-chart"
+                    data-pending="<?php echo (int)$orderStatusCounts['Pending']; ?>"
+                    data-progress="<?php echo (int)$orderStatusCounts['In Progress']; ?>"
+                    data-completed="<?php echo (int)$orderStatusCounts['Completed']; ?>">
 
                     <div class="chart-item">
                         <div class="chart-label">
@@ -310,39 +313,7 @@ $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
     </div>
 
 
-    <script>
-        const orderCounts = {
-            pending: <?php echo (int)$orderStatusCounts['Pending']; ?>,
-            progress: <?php echo (int)$orderStatusCounts['In Progress']; ?>,
-            completed: <?php echo (int)$orderStatusCounts['Completed']; ?>
-        };
-
-        const total = Object.values(orderCounts)
-            .reduce((sum, count) => sum + count, 0);
-
-        document.querySelectorAll('.chart-fill').forEach(bar => {
-            const status = bar.dataset.status;
-
-            let count = 0;
-
-            if (status === 'Pending') count = orderCounts.pending;
-            if (status === 'In Progress') count = orderCounts.progress;
-            if (status === 'Completed') count = orderCounts.completed;
-
-            const percentage = total > 0
-                ? (count / total) * 100
-                : 0;
-
-            bar.style.width = percentage + '%';
-
-            const percentageLabel = bar
-                .closest('.chart-item')
-                .querySelector('.chart-percentage');
-
-            percentageLabel.textContent =
-                percentage.toFixed(1) + '%';
-        });
-    </script>
+    <script src="assets/javascript/dashboard.js"></script>
 </body>
 </body>
 </html>
