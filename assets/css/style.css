@@ -155,6 +155,10 @@ body {
     .main-content {
         padding: 25px 20px;
     }
+
+    .form-container {
+        padding: 25px 20px;
+    }
 }
 
 .success-message {
@@ -205,11 +209,16 @@ body {
 
 .table-container {
     width: 100%;
+    max-width: 100%;
     overflow-x: auto;
     background-color: #FFFFFF;
     border: 1px solid #F0D9DC;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(116, 21, 44, 0.05);
+}
+
+.table-container table {
+    min-width: 750px;
 }
 
 table {
@@ -255,5 +264,91 @@ td button {
     background: none;
     color: #A33B50;
     cursor: pointer;
+    font-weight: bold;
+}
+
+/* Form Styling */
+
+.form-container {
+    width: 100%;
+    max-width: 750px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    padding: 35px 40px;
+    border: 1px solid #F0D9DC;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(116, 21, 44, 0.05);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #54202B;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #E8C8CE;
+    border-radius: 8px;
+    background-color: #FDFBFA;
+    color: #54202B;
+    outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #A33B50;
+    box-shadow: 0 0 0 3px rgba(163, 59, 80, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-container button {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.form-container h2 {
+    color: #74152C;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.form-container h2:not(:first-child) {
+    margin-top: 30px;
+}
+
+.form-container button {
+    background-color: #74152C;
+    color: #FFFFFF;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #54202B;
+}
+
+/* Back Link Styling */
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #74152C;
     font-weight: bold;
 }

@@ -98,66 +98,76 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             <section class="overview">
 
-                <form action="" method="POST">
+                <div class="form-container">
+                    <form action="" method="POST">
 
-                    <label>Item Name</label>
-                    <input
-                        type="text"
-                        name="item_name"
-                        value="<?php echo htmlspecialchars($item['item_name']); ?>"
-                        required
-                    >
-
-                    <label>Colour</label>
-                    <input
-                        type="text"
-                        name="colour"
-                        value="<?php echo htmlspecialchars($item['colour'] ?? ''); ?>"
-                    >
-
-                    <label>Quantity in Stock</label>
-                    <input
-                        type="number"
-                        name="quantity_in_stock"
-                        min="0"
-                        value="<?php echo htmlspecialchars($item['quantity_in_stock']); ?>"
-                        required
-                    >
-
-                    <label>Unit</label>
-                    <select name="unit" required>
-                        <?php
-                        $units = ["pieces", "metres", "rolls", "packs", "sheets"];
-
-                        foreach ($units as $unit):
-                        ?>
-                            <option
-                                value="<?php echo $unit; ?>"
-                                <?php echo ($item['unit'] === $unit) ? 'selected' : ''; ?>
+                        <div class="form-group">
+                            <label>Item Name</label>
+                            <input
+                                type="text"
+                                name="item_name"
+                                value="<?php echo htmlspecialchars($item['item_name']); ?>"
+                                required
                             >
-                                <?php echo ucfirst($unit); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                        </div>
 
-                    <label>Low Stock Threshold</label>
-                    <input
-                        type="number"
-                        name="low_stock_threshold"
-                        min="0"
-                        value="<?php echo htmlspecialchars($item['low_stock_threshold']); ?>"
-                        required
-                    >
+                        <div class="form-group">
+                            <label>Colour</label>
+                            <input
+                                type="text"
+                                name="colour"
+                                value="<?php echo htmlspecialchars($item['colour'] ?? ''); ?>"
+                            >
+                        </div>
 
-                    <button type="submit" name="update_inventory">
-                        Save Changes
-                    </button>
+                        <div class="form-group">
+                            <label>Quantity in Stock</label>
+                            <input
+                                type="number"
+                                name="quantity_in_stock"
+                                min="0"
+                                value="<?php echo htmlspecialchars($item['quantity_in_stock']); ?>"
+                                required
+                            >
+                        </div>
 
-                </form>
+                        <div class="form-group">
+                            <label>Unit</label>
+                            <select name="unit" required>
+                                <?php
+                                $units = ["pieces", "metres", "rolls", "packs", "sheets"];
 
-                <p>
-                    <a href="inventory.php">Back to Inventory</a>
-                </p>
+                                foreach ($units as $unit):
+                                ?>
+                                    <option
+                                        value="<?php echo $unit; ?>"
+                                        <?php echo ($item['unit'] === $unit) ? 'selected' : ''; ?>
+                                    >
+                                        <?php echo ucfirst($unit); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Low Stock Threshold</label>
+                            <input
+                                type="number"
+                                name="low_stock_threshold"
+                                min="0"
+                                value="<?php echo htmlspecialchars($item['low_stock_threshold']); ?>"
+                                required
+                            >
+                        </div>
+
+                        <button type="submit" name="update_inventory">
+                            Save Changes
+                        </button>
+
+                    </form>
+                </div>
+
+                <a href="inventory.php" class="back-link">← Back to Inventory</a>
 
             </section>
 

@@ -50,66 +50,67 @@ $result = $conn->query($sql);
 
                 <h2>All Customers</h2>
 
-                <table>
+                <div class="table-container">
+                    <table>
 
-                    <thead>
-                        <tr>
-                            <th>Customer ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Total Orders</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Total Orders</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        <?php if ($result && $result->num_rows > 0): ?>
+                            <?php if ($result && $result->num_rows > 0): ?>
 
-                            <?php while ($customer = $result->fetch_assoc()): ?>
+                                <?php while ($customer = $result->fetch_assoc()): ?>
+
+                                    <tr>
+                                        <td>
+                                            <?php echo htmlspecialchars($customer['customer_id']); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($customer['name']); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
+                                        </td>
+
+                                        <td>
+                                            <?php echo htmlspecialchars($customer['total_orders']); ?>
+                                        </td>
+                                        <td>
+                                            <a href="customer_details.php?id=<?php echo $customer['customer_id']; ?>">
+                                                View Orders
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                <?php endwhile; ?>
+
+                            <?php else: ?>
 
                                 <tr>
-                                    <td>
-                                        <?php echo htmlspecialchars($customer['customer_id']); ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo htmlspecialchars($customer['name']); ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo htmlspecialchars($customer['email'] ?? 'N/A'); ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo htmlspecialchars($customer['phone'] ?? 'N/A'); ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo htmlspecialchars($customer['total_orders']); ?>
-                                    </td>
-                                    <td>
-                                        <a href="customer_details.php?id=<?php echo $customer['customer_id']; ?>">
-                                            View Orders
-                                        </a>
-                                    </td>
+                                    <td colspan="6">No customers found yet.</td>
                                 </tr>
 
-                            <?php endwhile; ?>
+                            <?php endif; ?>
 
-                        <?php else: ?>
+                        </tbody>
 
-                            <tr>
-                                <td colspan="6">No customers found yet.</td>
-                            </tr>
-
-                        <?php endif; ?>
-
-                    </tbody>
-
-                </table>
-
+                    </table>
+                </div>
             </section>
 
         </div>

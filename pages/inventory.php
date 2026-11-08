@@ -66,80 +66,83 @@ $result = $conn->query($sql);
                     </a>
                 </div>
 
-                <table>
+                <div class="table-container">
 
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Colour</th>
-                            <th>Quantity</th>
-                            <th>Unit</th>
-                            <th>Low Stock Threshold</th>
-                            <th>Stock Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+                    <table>
 
-                    <tbody>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Colour</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Low Stock Threshold</th>
+                                <th>Stock Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
 
-                        <?php if ($result && $result->num_rows > 0): ?>
+                        <tbody>
 
-                            <?php while ($item = $result->fetch_assoc()): ?>
+                            <?php if ($result && $result->num_rows > 0): ?>
+
+                                <?php while ($item = $result->fetch_assoc()): ?>
+
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($item['item_name']); ?></td>
+
+                                        <td><?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?></td>
+
+                                        <td><?php echo htmlspecialchars($item['quantity_in_stock']); ?></td>
+
+                                        <td><?php echo htmlspecialchars($item['unit']); ?></td>
+
+                                        <td><?php echo htmlspecialchars($item['low_stock_threshold']); ?></td>
+
+                                        <td>
+                                            <?php if ($item['quantity_in_stock'] <= $item['low_stock_threshold']): ?>
+                                                <span>Low Stock</span>
+                                            <?php else: ?>
+                                                <span>In Stock</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
+                                                Edit
+                                            </a>
+
+                                            <form action="delete_inventory.php" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this inventory item?');">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="item_id"
+                                                    value="<?php echo $item['item_id']; ?>"
+                                                >
+
+                                                <button type="submit" name="delete_inventory">
+                                                    Delete
+                                                </button>
+
+                                            </form>
+
+                                        </td>    
+                                    </tr>
+
+                                <?php endwhile; ?>
+
+                            <?php else: ?>
 
                                 <tr>
-                                    <td><?php echo htmlspecialchars($item['item_name']); ?></td>
-
-                                    <td><?php echo htmlspecialchars($item['colour'] ?? 'N/A'); ?></td>
-
-                                    <td><?php echo htmlspecialchars($item['quantity_in_stock']); ?></td>
-
-                                    <td><?php echo htmlspecialchars($item['unit']); ?></td>
-
-                                    <td><?php echo htmlspecialchars($item['low_stock_threshold']); ?></td>
-
-                                    <td>
-                                        <?php if ($item['quantity_in_stock'] <= $item['low_stock_threshold']): ?>
-                                            <span>Low Stock</span>
-                                        <?php else: ?>
-                                            <span>In Stock</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <a href="edit_inventory.php?id=<?php echo $item['item_id']; ?>">
-                                            Edit
-                                        </a>
-
-                                        <form action="delete_inventory.php" method="POST"
-                                            onsubmit="return confirm('Are you sure you want to delete this inventory item?');">
-
-                                            <input
-                                                type="hidden"
-                                                name="item_id"
-                                                value="<?php echo $item['item_id']; ?>"
-                                            >
-
-                                            <button type="submit" name="delete_inventory">
-                                                Delete
-                                            </button>
-
-                                        </form>
-
-                                    </td>    
+                                    <td colspan="7">No inventory items found.</td>
                                 </tr>
 
-                            <?php endwhile; ?>
+                            <?php endif; ?>
 
-                        <?php else: ?>
+                        </tbody>
 
-                            <tr>
-                                <td colspan="7">No inventory items found.</td>
-                            </tr>
-
-                        <?php endif; ?>
-
-                    </tbody>
-
-                </table>
+                    </table>
+                </div>
 
             </section>
 

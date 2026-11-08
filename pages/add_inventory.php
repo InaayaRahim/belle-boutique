@@ -93,61 +93,74 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </p>
                 <?php endif; ?>
 
-                <form action="" method="POST">
+                <div class="form-container">
 
-                    <label for="item_name">Item Name</label>
-                    <input
-                        type="text"
-                        id="item_name"
-                        name="item_name"
-                        placeholder="e.g. Pipe Cleaners"
-                        required
-                    >
+                    <form action="" method="POST">
 
-                    <label for="colour">Colour</label>
-                    <input
-                        type="text"
-                        id="colour"
-                        name="colour"
-                        placeholder="e.g. Pink"
-                    >
+                        <div class="form-group">
+                            <label for="item_name">Item Name</label>
+                            <input
+                                type="text"
+                                id="item_name"
+                                name="item_name"
+                                placeholder="e.g. Pipe Cleaners"
+                                required
+                            >
+                        </div>
 
-                    <label for="quantity_in_stock">Quantity in Stock</label>
-                    <input
-                        type="number"
-                        id="quantity_in_stock"
-                        name="quantity_in_stock"
-                        min="0"
-                        value="0"
-                        required
-                    >
+                        <div class="form-group">
+                            <label for="colour">Colour</label>
+                            <input
+                                type="text"
+                                id="colour"
+                                name="colour"
+                                placeholder="e.g. Pink"
+                            >
+                        </div>
 
-                    <label for="unit">Unit</label>
-                    <select id="unit" name="unit" required>
-                        <option value="pieces">Pieces</option>
-                        <option value="metres">Metres</option>
-                        <option value="rolls">Rolls</option>
-                        <option value="packs">Packs</option>
-                        <option value="sheets">Sheets</option>
-                    </select>
+                        <div class="form-group">
+                            <label for="quantity_in_stock">Quantity in Stock</label>
+                            <input
+                                type="number"
+                                id="quantity_in_stock"
+                                name="quantity_in_stock"
+                                min="0"
+                                value="0"
+                                required
+                            >
+                        </div>
 
-                    <label for="low_stock_threshold">Low Stock Threshold</label>
-                    <input
-                        type="number"
-                        id="low_stock_threshold"
-                        name="low_stock_threshold"
-                        min="0"
-                        value="5"
-                        required
-                    >
+                        <div class="form-group">
+                            <label for="unit">Unit</label>
+                            <select id="unit" name="unit" required>
+                                <option value="pieces">Pieces</option>
+                                <option value="metres">Metres</option>
+                                <option value="rolls">Rolls</option>
+                                <option value="packs">Packs</option>
+                                <option value="sheets">Sheets</option>
+                            </select>
+                        </div>
 
-                    <button type="submit" name="add_inventory">
-                        Save Inventory Item
-                    </button>
+                        <div class="form-group">
+                            <label for="low_stock_threshold">Low Stock Threshold</label>
+                            <input
+                                type="number"
+                                id="low_stock_threshold"
+                                name="low_stock_threshold"
+                                min="0"
+                                value="5"
+                                required
+                            >
+                        </div>
 
-                </form>
+                        <button type="submit" name="add_inventory">
+                            Save Inventory Item
+                        </button>
 
-                <a href="inventory.php">Back to Inventory</a>
+                    </form>
+                </div>
+
+                <a href="inventory.php" class="back-link">← Back to Inventory</a>
 
             </section>
 

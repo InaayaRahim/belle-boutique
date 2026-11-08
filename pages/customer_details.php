@@ -93,50 +93,51 @@ $orders = $orderStatement->get_result();
 
                 <h2>Order History</h2>
 
-                <table>
+                <div class="table-container">
+                    <table>
 
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Bouquet Description</th>
-                            <th>Quantity</th>
-                            <th>Price (£)</th>
-                            <th>Order Date</th>
-                            <th>Deadline</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Bouquet Description</th>
+                                <th>Quantity</th>
+                                <th>Price (£)</th>
+                                <th>Order Date</th>
+                                <th>Deadline</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                        <?php if ($orders->num_rows > 0): ?>
+                            <?php if ($orders->num_rows > 0): ?>
 
-                            <?php while ($order = $orders->fetch_assoc()): ?>
+                                <?php while ($order = $orders->fetch_assoc()): ?>
+
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($order['order_id']); ?></td>
+                                        <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
+                                        <td><?php echo htmlspecialchars($order['quantity']); ?></td>
+                                        <td><?php echo number_format((float) $order['price'], 2); ?></td>
+                                        <td><?php echo htmlspecialchars($order['order_date']); ?></td>
+                                        <td><?php echo htmlspecialchars($order['deadline'] ?? 'N/A'); ?></td>
+                                        <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                    </tr>
+
+                                <?php endwhile; ?>
+
+                            <?php else: ?>
 
                                 <tr>
-                                    <td><?php echo htmlspecialchars($order['order_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($order['bouquet_description']); ?></td>
-                                    <td><?php echo htmlspecialchars($order['quantity']); ?></td>
-                                    <td><?php echo number_format((float) $order['price'], 2); ?></td>
-                                    <td><?php echo htmlspecialchars($order['order_date']); ?></td>
-                                    <td><?php echo htmlspecialchars($order['deadline'] ?? 'N/A'); ?></td>
-                                    <td><?php echo htmlspecialchars($order['status']); ?></td>
+                                    <td colspan="7">This customer has not placed any orders yet.</td>
                                 </tr>
 
-                            <?php endwhile; ?>
+                            <?php endif; ?>
 
-                        <?php else: ?>
+                        </tbody>
 
-                            <tr>
-                                <td colspan="7">This customer has not placed any orders yet.</td>
-                            </tr>
-
-                        <?php endif; ?>
-
-                    </tbody>
-
-                </table>
-
+                    </table>
+                </div>
                 <p class="black-link">
                     <a href="customers.php">← Back to Customers</a>
                 </p>
