@@ -4,11 +4,21 @@ require_once "includes/db_connect.php";
 // Count all orders
 $totalOrdersQuery = "SELECT COUNT(*) AS total FROM orders";
 $totalOrdersResult = $conn->query($totalOrdersQuery);
+
+if (!$totalOrdersResult) {
+    die("Error retrieving total orders: " . $conn->error);
+}
+
 $totalOrders = $totalOrdersResult->fetch_assoc()['total'];
 
 // Count pending orders
 $pendingOrdersQuery = "SELECT COUNT(*) AS total FROM orders WHERE status = 'Pending'";
 $pendingOrdersResult = $conn->query($pendingOrdersQuery);
+
+if (!$pendingOrdersResult) {
+    die("Error retrieving pending orders: " . $conn->error);
+}
+
 $pendingOrders = $pendingOrdersResult->fetch_assoc()['total'];
 
 // Get order counts for the status chart
@@ -19,6 +29,10 @@ $orderStatusQuery = "
 ";
 
 $orderStatusResult = $conn->query($orderStatusQuery);
+
+if (!$orderStatusResult) {
+    die("Error retrieving order status counts: " . $conn->error);
+}
 
 $orderStatusCounts = [
     'Pending' => 0,
@@ -34,6 +48,11 @@ while ($row = $orderStatusResult->fetch_assoc()) {
 $lowStockQuery = "SELECT COUNT(*) AS total FROM inventory
                   WHERE quantity_in_stock <= low_stock_threshold";
 $lowStockResult = $conn->query($lowStockQuery);
+
+if (!$lowStockResult) {
+    die("Error retrieving low stock count: " . $conn->error);
+}
+
 $lowStockItems = $lowStockResult->fetch_assoc()['total'];
 
 // Get the five most recent orders
@@ -53,6 +72,10 @@ $recentOrdersQuery = "
 
 $recentOrdersResult = $conn->query($recentOrdersQuery);
 
+if (!$recentOrdersResult) {
+    die("Error retrieving recent orders: " . $conn->error);
+}
+
 // Get materials that are low in stock
 $lowStockOverviewQuery = "
     SELECT item_name, colour, quantity_in_stock, unit, low_stock_threshold
@@ -62,6 +85,10 @@ $lowStockOverviewQuery = "
 ";
 
 $lowStockOverviewResult = $conn->query($lowStockOverviewQuery);
+
+if (!$lowStockOverviewResult) {
+    die("Error retrieving low stock overview: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
