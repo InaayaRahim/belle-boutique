@@ -147,3 +147,13 @@ body {
 .back-link {
     margin-top: 20px;
 }
+
+/* Error Message Styling */
+
+.error-message {
+    background-color: #FBE4E4;
+    color: #9B2525;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
