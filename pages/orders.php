@@ -63,8 +63,15 @@ $result = $conn->query($sql);
         </header>
 
         <section class="overview">
-            <div class="orders-header">
+            <div class="section-header">
                 <h2>All Orders</h2>
+
+                <a href="add_order.php" class="primary-button">
+                    + Add New Order
+                </a>
+            </div>
+
+            <div class="table-container">
 
                 <table>
                     <thead>
@@ -117,9 +124,6 @@ $result = $conn->query($sql);
                     </tbody>
                 </table>
 
-                <a href="add_order.php" class="add-order-button">
-                    + Add New Order
-                </a>
             </div>
         </section>
         </div> <!-- End of main-content -->
