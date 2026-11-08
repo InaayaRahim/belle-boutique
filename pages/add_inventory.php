@@ -1,10 +1,25 @@
 <?php
 
+session_start();
+
 require_once "../includes/db_connect.php";
+
+// Generate a CSRF token if one doesn't already exist
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 $errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    // Verify the CSRF token
+    if (
+        !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die("Invalid security token. Please return to the form and try again.");
+    }
 
     // Collect form information
     $itemName = trim($_POST["item_name"] ?? "");
@@ -34,26 +49,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 (item_name, colour, quantity_in_stock, unit, low_stock_threshold)
                 VALUES (?, ?, ?, ?, ?)";
 
-        $statement = $conn->prepare($sql);
+        try {
+            $statement = $conn->prepare($sql);
 
-        $statement->bind_param(
-            "ssisi",
-            $itemName,
-            $colour,
-            $quantity,
-            $unit,
-            $threshold
-        );
+            $statement->bind_param(
+                "ssisi",
+                $itemName,
+                $colour,
+                $quantity,
+                $unit,
+                $threshold
+            );
 
-        if ($statement->execute()) {
+            $statement->execute();
 
             header("Location: inventory.php?added=1");
             exit;
 
-        } else {
+        } catch (mysqli_sql_exception $e) {
+            error_log("Inventory insertion failed: " . $e->getMessage());
 
             $errorMessage = "Unable to save the inventory item. Please try again.";
-
         }
     }
 }
@@ -96,6 +112,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div class="form-container">
 
                     <form action="" method="POST">
+
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>"
+                    >
 
                         <div class="form-group">
                             <label for="item_name">Item Name</label>
